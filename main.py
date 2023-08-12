@@ -1,6 +1,5 @@
 import sys
 import os
-import tkinter as tk
 
 if os.path.isdir('.lib'):
    lib_path = os.path.dirname(__file__) + '/.lib'

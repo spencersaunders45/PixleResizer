@@ -48,7 +48,7 @@ class SpriteResizer:
             return False, data.stderr.strip()
         return True, data.stdout.strip()
 
-    def get_image(file_path):
+    def get_image(file_path: str) -> tuple:
         """
         # Summary:
             Gets an image and finds the pixel width and height.
@@ -57,13 +57,14 @@ class SpriteResizer:
             file_path(str): The file path to the image.
 
         ## Returns:
-            str: 
+            Image: The PIL.Image object of the image
+            int: The width of the image in pixels
+            int: The hight of the image in pixels 
         """
-        for file in file_names:
-            img = Image.open(file)
-            width = img.size[0]
-            height = img.size[1]
-            create_new_img(img, width, height, tile_sizes)
+        img = Image.open(file_path)
+        width = img.size[0]
+        height = img.size[1]
+        return img, width, height
 
 
 
@@ -144,33 +145,29 @@ class SpriteResizer:
 
 
 
-    def create_new_img(img, width, height, tile_sizes):
+    def create_new_img(self, img, width, height, tile_sizes):
         # Old image
         img_rgba = img.convert("RGBA")
         pixels = img_rgba.load()
         # New image
-        new_width = int(find_new_img_size(width, tile_sizes))
-        new_height = int(find_new_img_size(height, tile_sizes))
+        new_width = int(self.find_new_img_size(width, tile_sizes))
+        new_height = int(self.find_new_img_size(height, tile_sizes))
         new_sizes = (new_width, new_height)
         new_img = PIL.Image.new("RGBA", new_sizes)
         new_pixels = new_img.load()
         # Add pixels to new image
-        jump = get_jump(tile_sizes)
+        jump = self.get_jump(tile_sizes)
         for i in range(0, width, jump):
             for j in range(0, height, jump):
                 r,g,b,a = pixels[i, j]
-                new_pixels = add_pixels(tile_sizes, new_pixels, i, j, r, g, b, a)
+                new_pixels = self.add_pixels(tile_sizes, new_pixels, i, j, r, g, b, a)
         # Saves the new image
         new_img.save("test5.png")
 
 
 
-    def main():
+    def main(self):
         file_names = []
-        tile_sizes = get_tile_sizes()
-        get_file_names(file_names)
-        get_image(file_names, tile_sizes)
-
-
-
-main()
+        tile_sizes = self.get_tile_sizes()
+        self.get_file_names(file_names)
+        self.get_image(file_names, tile_sizes)
