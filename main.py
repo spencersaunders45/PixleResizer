@@ -1,7 +1,13 @@
+import sys
+import os
+import tkinter as tk
+
+if os.path.isdir('.lib'):
+   lib_path = os.path.dirname(__file__) + '/.lib'
+   sys.path.append(lib_path)
+
 import PIL.Image
 from PIL import Image
-
-
 
 def get_file_names(file_names):
    file = ""
@@ -18,9 +24,9 @@ def get_tile_sizes():
    sizes = [0,0]
    is_valid = False
    while is_valid == False:
-      print("Enter the current pixle size (16x16, 32x32, or 48x48)")
+      print("Enter the current pixel size (16x16, 32x32, or 48x48)")
       start_size = input(">")
-      print("Enter the desired pixle size (16x16, 32x32, or 48x48)")
+      print("Enter the desired pixel size (16x16, 32x32, or 48x48)")
       end_size = input(">")
       sizes[0] = add_tile_size(start_size)
       sizes[1] = add_tile_size(end_size)
@@ -64,24 +70,24 @@ def get_image(file_names, tile_sizes):
 
 
 
-def find_new_img_size(dimention, tile_sizes):
-   new_dimention = 0
+def find_new_img_size(dimension, tile_sizes):
+   new_dimension = 0
    if tile_sizes[0] == 48 and tile_sizes[1] == 16:
-      new_dimention = dimention / 3
+      new_dimension = dimension / 3
    elif tile_sizes[0] == 48 and tile_sizes[1] == 32:
-      new_dimention = (dimention / 3) * 2
+      new_dimension = (dimension / 3) * 2
    elif tile_sizes[0] == 32 and tile_sizes[1] == 16:
-      new_dimention = dimention / 2
+      new_dimension = dimension / 2
    elif tile_sizes[0] == 32 and tile_sizes[1] == 48:
-      new_dimention = (dimention / 2) * 3
+      new_dimension = (dimension / 2) * 3
    elif tile_sizes[0] == 16 and tile_sizes[1] == 32:
-      new_dimention = dimention * 2
+      new_dimension = dimension * 2
    elif tile_sizes[0] == 16 and tile_sizes[1] == 48:
-      new_dimention = dimention * 3
+      new_dimension = dimension * 3
    else:
       print("Error in find_new_img_size(). Non-matching cases")
       exit()
-   return new_dimention
+   return new_dimension
 
 
 
